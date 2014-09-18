@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+
+.image_carousel {
+	position: relative;
+	width:960px;
+	height:131px;
+	float:left;
+	background:url(/img/spotlight.png) no-repeat;
+	margin-top:20px;
+}
+
+
+
+.image_carousel img {
+	border: 1px solid #e4e4e4;
+	background-color: white;
+	padding: 4px;
+	margin-right:25px;
+	margin-top:10px;
+	display: block;
+	float: left;
+	width:179px;
+	height:100px;
+}
+
+#spotlight{
+	/*width:831px;*/
+	height:129px;
+	overflow:hidden;
+	margin-left:65px;
+	float:left;
+
+}
+
+a.prev, a.next {
+	background: url(/img/miscellaneous_sprite.png) no-repeat transparent;
+	width: 45px;
+	height: 50px;
+	display: block;
+	position: absolute;
+	top: 45px;
+}
+
+a.prev{
+	background:none !important;
+}
+
+a.prev {			left: -2px;
+					background-position: 0 0; }
+a.prev:hover {		background-position: 0 -50px; }
+a.next {			right: -0px;
+					background-position: -50px 0; }
+a.next:hover {		background-position: -50px -49px; }
+
+a.prev span, a.next span {
+	display: none;
+}
+.clearfix {
+	float: none;
+	clear: both;
+}

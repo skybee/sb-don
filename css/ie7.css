@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+/* CSS Document */ 
+
+/*** IE 7 Fixes ***/
+
+
+#commentform .form-submit #submit{
+	width:105px !important;
+	height:27px !important;
+	margin-bottom:15px !important;
+}
+
+#right .left_column ul li a, #right .right_column ul li a{
+	width:150px !important;
+	float:left;
+}
+
+#right #wp-calendar tbody {
+	width:313px !important;
+}

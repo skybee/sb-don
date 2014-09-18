@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+/* CSS Document */ 
+
+/*** IE Fixes ***/
+
+#right #searchform .searchb{
+	width:16.4% !important;
+}

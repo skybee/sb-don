@@ -1,0 +1,84 @@
+/*** ESSENTIAL STYLES ***/
+.firstnav-menu, .firstnav-menu * {
+	margin:			0;
+	padding:		0;
+	list-style:		none;
+}
+.firstnav-menu {
+	line-height:	1.0;
+}
+.firstnav-menu ul {
+	position:		absolute;
+	top:			-999em;
+	width:			145px; /* left offset of submenus need to match (see below) */
+	margin-top:31px;
+	background:#171717;
+	border:1px solid #414141;
+	border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+    border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+    border-top:0 !important;
+	padding-top:0;
+	
+	
+}
+.firstnav-menu ul ul{
+	margin:0 !important;
+}
+.firstnav-menu ul li {
+	width:			100%;
+}
+.firstnav-menu li:hover {
+	visibility:		inherit; /* fixes IE7 'sticky bug' */
+}
+.firstnav-menu li {
+	float:			left;
+	position:		relative;
+}
+
+.firstnav-menu li li a {
+	width:135px;
+	padding-left:10px;
+	border-top:1px solid #414141;
+	
+}
+
+.firstnav-menu li li a:hover{
+	color:#7d7d7d !important;
+}
+
+.firstnav-menu li li li a{
+
+}
+
+.firstnav-menu a {
+	display:		block;
+	position:		relative;
+	font-size:10px;
+	text-tranfirstnavorm:uppercase;
+}
+.firstnav-menu li:hover ul,
+.firstnav-menu li.firstnavHover ul {
+	left:			0;
+	top:			0px; /* match top ul list item height */
+	z-index:		500;
+}
+ul.firstnav-menu li:hover li ul,
+ul.firstnav-menu li.firstnavHover li ul {
+	top:			-999em;
+}
+ul.firstnav-menu li li:hover ul,
+ul.firstnav-menu li li.firstnavHover ul {
+	left:			136px; /* match ul width */
+	top:			-0px;
+}
+ul.firstnav-menu li li:hover li ul,
+ul.firstnav-menu li li.firstnavHover li ul {
+	top:			-999em;
+}
+ul.firstnav-menu li li li:hover ul,
+ul.firstnav-menu li li li.firstnavHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
+}

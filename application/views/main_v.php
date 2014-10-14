@@ -5,14 +5,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=$data['title']?></title>
 
-        <link rel="stylesheet" type="text/css" href="/css/colorpicker.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/stylesheet.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/style.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/firstnavigation.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/secondnavigation.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/carousel.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/tipTip.css"  />
-        <link rel="stylesheet" type="text/css" href="/css/tabs.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>colorpicker.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>stylesheet.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>style.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>firstnavigation.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>secondnavigation.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>carousel.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>tipTip.css"  />
+        <link rel="stylesheet" type="text/css" href="/css/<?=$_SERVER['HTTP_HOST'].".stl."?>tabs.css"  />
         
         <link rel="stylesheet" type="text/css" href="/css/jquery.bxslider.css"  />
         
@@ -71,22 +71,13 @@
 
         <div id="categories_container" class="<?=get_rnd_cssclass('categories_container')?>">
 
-            <div id="categories">
-                <ul id="menu-shawn" class="secondnav-menu sf-js-enabled sf-menu"><li id="menu-item-2052" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2052"><a href="#" >Business</a></li>
-                    <li id="menu-item-2053" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2053"><a href="#" >Health</a></li>
-                    <li id="menu-item-2054" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2054"><a href="#" >Movies</a></li>
-                    <li id="menu-item-2055" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2055"><a href="#" >Opinions</a></li>
-                    <li id="menu-item-2057" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2057"><a href="#" >Sports</a></li>
-                    <li id="menu-item-2058" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2058"><a href="#" >Technology</a></li>
-                    <li id="menu-item-2059" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2059"><a href="#" >World</a></li>
-                    <li id="menu-item-2060" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2060"><a href="#">Drop Menu</a>
-                        <ul class="sub-menu">
-                            <li id="menu-item-2061" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2061"><a href="#">Drop Menu</a></li>
-                            <li id="menu-item-2062" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2062"><a href="#">Drop Menu</a></li>
-                            <li id="menu-item-2063" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2063"><a href="#">Drop Menu</a></li>
-                        </ul>
-                    </li>
-                </ul>                    </div><!-- #categories -->
+            <div id="categories" class="<?=get_rnd_cssclass('categories-id')?>">
+                <ul id="menu-shawn" class="secondnav-menu <?=get_rnd_cssclass('secondnav-menu')?>">
+                    <? foreach($catlist as $cat): ?>
+                    <li class="<?=get_rnd_cssclass('categories')?>"><a href="#" ><?=$cat['name']?></a></li>
+                    <? endforeach; ?>
+                </ul>                    
+            </div><!-- #categories -->
 
         </div><!-- categories container -->
 
@@ -132,51 +123,6 @@
             
             <div id="footer_holder" class="<?=get_rnd_cssclass('footer_holder')?>" >
                 <div id="footer" class="<?=get_rnd_cssclass('footer')?>" >
-                    <div class="column_1">
-                        <div id="lt_social_icons-3" class="widget"><div class="heading"><h5>Connect with us</h5></div>     
-                            <ul id="social_icons">
-                                <li><a href="#" ><img src="/img/twitter_social_icon.png"  width="28" height="28" class="socialimg imgf"/><span class="socialtext">Twitter</span></a></li>
-
-                                <li><a href="#" ><img src="/img/facebook_social_icon.png"  width="28" height="28" class="socialimg imgf"/><span class="socialtext">Facebook</span></a></li>
-
-                                <li><a href="#" ><img src="/img/rss_social_icon.png"  width="28" height="28" class="socialimg imgf"/><span class="socialtext">RSS Feed</span></a></li>
-
-                                <li><a href="#" ><img src="/img/vimeo_social_icon.png"  width="28" height="28" class="socialimg imgf"/><span class="socialtext">Vimeo</span></a></li>  
-                            </ul>
-                        </div><!-- #widget -->
-                    </div><!-- #column_1 -->
-                    <div class="column_2">
-                        <div id="lt_sidebar_news_widget-3" class="widget"><div class="heading"><h5>Latest News</h5></div>           <div class="latest_news">
-                                <div class="image">
-                                    <a href="#" ><img src="/img/thumb.php-src=http---londonthemes.com-themes-broadcast-wp-content-uploads-2011-07-business-tips.png&w=67&h=53&zc=1&q=100.png"  width="67" height="53" alt="Business tips to help you create one successful business." class="imgf"/></a>
-                                </div><!-- #image -->
-                                <div class="content"><h3><a href="#" >Business tips to help you create one successful business.</a></h3><span class="date">July 03,  2011</span></div><!-- #content -->
-                            </div><!-- #latest_news -->
-                            <div class="latest_news">
-                                <div class="image">
-                                    <a href="#" ><img src="/img/thumb.php-src=http---londonthemes.com-themes-broadcast-wp-content-uploads-2011-07-lakers-.png&w=67&h=53&zc=1&q=100.png"  width="67" height="53" alt="Lakers thinks kobe should see limited minutes to be more effective on the court." class="imgf"/></a>
-                                </div><!-- #image -->
-                                <div class="content"><h3><a href="#" >Lakers thinks kobe should see limited minutes to be more effective on the court.</a></h3><span class="date">July 03,  2011</span></div><!-- #content -->
-                            </div><!-- #latest_news -->
-                        </div><!-- #widget -->
-                    </div><!-- #column_2 -->
-                    <div class="column_3">
-                        <div id="text-3" class="widget"><div class="heading"><h5>Text Widget</h5></div>			<div class="textwidget"><p>Maecenas mattis, tortor ut posuere aliquam, quam enim accumsan purus, auctor placerat orci velit vitae massa. Vivamus non iaculis lectus.</p>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ac felis quis purus egestas laoreet. Mauris placerat feugiat augue ut viverra.</p></div>
-                        </div><!-- #widget -->
-                    </div><!-- #column_3 -->
-
-                    <div class="column_4">
-
-                        <div id="pages-3" class="widget"><div class="heading"><h5>Pages</h5></div>		<ul>
-                                <li class="page_item page-item-1733"><a href="#"  title="Archive">Archive</a></li>
-                                <li class="page_item page-item-1739"><a href="#"  title="Contact">Contact</a></li>
-                                <li class="page_item page-item-1736"><a href="#"  title="Features">Features</a></li>
-                                <li class="page_item page-item-1804"><a href="#"  title="Full Width">Full Width</a></li>
-                            </ul>
-                        </div><!-- #widget -->
-                    </div><!-- #column_4 -->
 
                 </div><!-- #footer -->
 
@@ -186,9 +132,9 @@
 
                 <div class="copyright">
 
-                    <div class="left">&copy; 2011 Broadcast. All Rights Reserved.</div><!-- #left -->
+                    <div class="left">&copy; <?=date("Y")?> SB News. All Rights Reserved.</div><!-- #left -->
 
-                    <div class="right">Powered by Wordpress. Designed by<a href="#" > Skyali</a></div><!-- #right -->
+                    <div class="right">Powered by Wordpress.</div><!-- #right -->
 
                 </div><!-- #copyright -->
 

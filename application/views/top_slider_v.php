@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<?=get_rnd_block('open', 7)?>
+
 <div class="<?=get_rnd_cssclass('top_slider')?> top_slider"> 
 <?  
     $cntNews = count($last_news);
@@ -32,4 +32,3 @@
     </div>
 <? endfor; ?>
 </div>
-<?=get_rnd_block('open', 7)?>

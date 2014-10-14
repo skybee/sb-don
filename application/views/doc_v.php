@@ -76,7 +76,7 @@
     
     <?=get_rnd_block('open', 9)?>
     <p class="<?=get_rnd_cssclass('index_donor')?> index_donor">
-        Источник: <a href="<?=$rand_donor?>"><?=$rand_donor?></a>
+        Источник: <a href="<?=$rand_donor?>" <?=$donor_rel?> ><?=$rand_donor?></a>
     </p>
     <?=get_rnd_block('close', 9)?>
     <?=get_rnd_block('close', 8)?>

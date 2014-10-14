@@ -4,6 +4,8 @@ class article_m extends CI_Model{
     
     function __construct() {
         parent::__construct();
+        
+        $this->donorRel = '';
     }
     
     function get_last_news( $cnt = 1, $txt_length = 100, $img = false ){
@@ -72,7 +74,7 @@ class article_m extends CI_Model{
     function get_doc_data( $id ){
         $id = (int) $id;
         $query = $this->db->query(" SELECT  `article`.*, 
-                                            `category`.`name` AS 'cat_name', `category`.`full_uri` AS 'cat_full_uri', 
+                                            `category`.`name` AS 'cat_name', `category`.`full_uri` AS 'cat_full_uri',  
                                             `donor`.`name` AS 'd_name', `donor`.`host` AS 'd_host'
                                     FROM 
                                         `article`, `category`, `donor`
@@ -152,7 +154,8 @@ class article_m extends CI_Model{
         $seed = $doc_data['id'] + $this->unicDomainInt;
         
         mt_srand( $seed );
-        $randInt = mt_rand(1, 1000);
+        $randInt    = mt_rand(1, 1000);
+        $rndRel     = mt_rand(1, 1000);
         mt_srand();
         
         if( $randInt <= 200 ){
@@ -165,7 +168,15 @@ class article_m extends CI_Model{
             $url = $this->get_rand_satellite_donor_url( $doc_data );
         }
         
+        if( $rndRel <= 300 ){
+            $this->donorRel = ' rel="nofollow" ';
+        }
+        
         return $url;
+    }
+    
+    function get_donor_rel(){
+        return $this->donorRel;
     }
     
     private function get_real_donor_url( &$doc_data ){
@@ -227,5 +238,35 @@ class article_m extends CI_Model{
         }
         
         return $result;
+    }
+    
+    function get_catlist_from_catid( $id ){
+        
+        $cacheName = 'catlist_'.$id;
+        
+        if( !$catListCache = $this->cache->file->get($cacheName) ){
+            $sql = "SELECT "
+                    . "`category`.`id`, `category`.`url_name`, `category`.`name`, `category`.`parent_id` "
+                    . "FROM "
+                    . "`category`, (SELECT `parent_id` FROM `category` WHERE `category`.`id` = {$id} LIMIT 1 ) AS `t1` "
+                    . "WHERE "
+                    . "`category`.`parent_id` = `t1`.`parent_id` "
+                    . "ORDER BY `category`.`sort` ";
+
+            $query = $this->db->query( $sql );
+
+            if( $query->num_rows() < 1 ) return NULL;
+
+            $data = array();
+
+            foreach( $query->result_array() as $row ){
+                $data[] = $row;
+            }
+            $this->cache->file->save($cacheName, $data, $this->catListCacheTime );
+        }
+        else
+            $data = $catListCache;
+        
+        return $data;
     }
 }

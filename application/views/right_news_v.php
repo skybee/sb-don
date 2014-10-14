@@ -19,7 +19,7 @@
         <img src="<?=$imgUrl?>"  alt="<?= str_replace('"', " ", $news['title']) ?>" onerror="imgError(this);" />
     </a>
     <div class="<?=get_rnd_cssclass('content')?> content">
-        <h1><a href="<?=$news_url?>" ><?=$news['title']?></a></h1> 
+        <h6><a href="<?=$news_url?>" ><?=$news['title']?></a></h6> 
         <!--<span class="date">January 03,  2011</span>-->
     </div>
 </div>

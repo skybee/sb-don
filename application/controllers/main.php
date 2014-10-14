@@ -19,6 +19,7 @@ class main extends CI_Controller{
         $this->RightNewsCacheTime   = 900;
         $this->sliderCacheTime      = 3600;
         $this->donorDomainCacheTime = 3600*5;
+        $this->catListCacheTime     = 3600*10;
         
         $this->unicDomainInt      = abs(crc32($this->host));
         $this->unicDomainStr      = str_replace( '=', '', base64_encode( $this->unicDomainInt ) );
@@ -55,11 +56,13 @@ class main extends CI_Controller{
         $content['doc']         = $this->article_m->get_doc_data( $id );
         $content['like_doc']    = $this->article_m->get_like_articles( $id, $content['doc']['title'], $this->rand->cntLikeNews, 30,  $content['doc']['date']);
         $content['rand_donor']  = $this->article_m->get_rand_donor( $content['doc'] );
+        $content['donor_rel']   = $this->article_m->get_donor_rel(); 
         
         $right_news     = $this->article_m->get_last_right_news( $this->rand->cntRightNewsOnDoc, 'doc' );
         $slider_news    = $this->article_m->get_slider_news( $this->rand->cntSliderNews );
         
         $tpl['data']['title']   = get_doc_title($content['doc']['title'], $content['like_doc'][0]['title'], 8);
+        $tpl['catlist']         = $this->article_m->get_catlist_from_catid( $content['doc']['cat_id'] );
         
         $tpl['content']     = $this->load->view('doc_v', $content, TRUE); 
         $tpl['right_news']  = $this->load->view('right_news_v', array('last_news'=>$right_news), TRUE);

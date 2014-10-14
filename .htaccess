@@ -7,6 +7,8 @@
     RewriteRule ^sbimg.*?/(.*) http://odnako.su/$1 [NC,L,R=301]
     RewriteRule ^([a-z_-\d/]*[^/])$ $1/ [NC,L,R=301]
 
+    RewriteRule ^(css/).*?stl\.(.*\.css)$ /$1$2 [L]
+
     #Removes access to the system folder by users.
     #Additionally this will allow you to create a System.php controller,
     #previously this would not have been possible.

@@ -183,7 +183,7 @@ li.tagslast a.tagslast{
 	text-decoration:none;
 }
 
-.tab_inside div.content h1{
+.tab_inside div.content h1, .tab_inside div.content h6 {
 	float:left;
 	font-size:13px;
 	width:100%;

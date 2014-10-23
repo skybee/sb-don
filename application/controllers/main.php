@@ -10,6 +10,7 @@ class main extends CI_Controller{
         $this->load->helper('date_convert_helper');
         $this->load->helper('page_helper');
         $this->load->driver('cache');
+        $this->load->library('page_lib');
         
         
         $this->mainHost     = 'odnako.su';
@@ -20,6 +21,8 @@ class main extends CI_Controller{
         $this->sliderCacheTime      = 3600;
         $this->donorDomainCacheTime = 3600*5;
         $this->catListCacheTime     = 3600*10;
+        
+        $this->lockPagePercent      = 30;
         
         $this->unicDomainInt      = abs(crc32($this->host));
         $this->unicDomainStr      = str_replace( '=', '', base64_encode( $this->unicDomainInt ) );
@@ -42,6 +45,7 @@ class main extends CI_Controller{
         $slider_news    = $this->article_m->get_slider_news( $this->rand->cntSliderNews );
         
         $tpl['data']['title']   = 'Новости на '.strtoupper($this->host);
+        $tpl['catlist']         = $this->article_m->get_catlist_from_catid( 4 );
         
         $tpl['content']     = $this->load->view('index_v', array('last_news'=>$last_news), TRUE); 
         $tpl['right_news']  = $this->load->view('right_news_v', array('last_news'=>$right_news), TRUE);
@@ -53,6 +57,10 @@ class main extends CI_Controller{
     function doc( $cat, $id ){
         $id = (int) str_replace($this->unicDomainInt, '', $id);
         
+        if( $id == 192247) show_404(); //== slando article
+        
+        if( $this->page_lib->partPageLock($id) ){ header("Location: /"); } 
+         
         $content['doc']         = $this->article_m->get_doc_data( $id );
         $content['like_doc']    = $this->article_m->get_like_articles( $id, $content['doc']['title'], $this->rand->cntLikeNews, 30,  $content['doc']['date']);
         $content['rand_donor']  = $this->article_m->get_rand_donor( $content['doc'] );

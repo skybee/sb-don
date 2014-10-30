@@ -57,11 +57,26 @@ class main extends CI_Controller{
     function doc( $cat, $id ){
         $id = (int) str_replace($this->unicDomainInt, '', $id);
         
-        if( $id == 192247) show_404(); //== slando article
-        
-        if( $this->page_lib->partPageLock($id) ){ header("Location: /"); } 
+//        if( $id == 192247) show_404(); //== slando article
+//        
+//        if( $this->page_lib->partPageLock($id) ){ header("Location: /"); } 
          
         $content['doc']         = $this->article_m->get_doc_data( $id );
+        
+        #<odnako 301 tmp>
+            if( $_SERVER['HTTP_HOST'] == 'build02.comeze.com' || $_SERVER['HTTP_HOST'] == 'sbnews.ukrainecityguide.com' || $_SERVER['HTTP_HOST'] == 'build.net76.net' ){
+                show_404();
+                exit();
+            }
+        
+            $redirUrl = 'http://odnako.su/'.$content['doc']['cat_full_uri'].'-'.$content['doc']['id'].'-'.$content['doc']['url_name'].'/';
+
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location: '.$redirUrl);
+            exit();
+        #</odnako 301 tmp>
+//        echo "<pre>".print_r($content['doc'],1)."</pre>\n";
+        
         $content['like_doc']    = $this->article_m->get_like_articles( $id, $content['doc']['title'], $this->rand->cntLikeNews, 30,  $content['doc']['date']);
         $content['rand_donor']  = $this->article_m->get_rand_donor( $content['doc'] );
         $content['donor_rel']   = $this->article_m->get_donor_rel(); 

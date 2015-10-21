@@ -56,7 +56,7 @@ $active_record = TRUE;
 //$db['default']['password'] = '';
 //$db['default']['database'] = 'hc';
 
-$db['default']['hostname'] = '109.120.165.234';
+$db['default']['hostname'] = 'odnako.su';
 $db['default']['username'] = 'admin_sb';
 $db['default']['password'] = '1865tsbqwerty';
 $db['default']['database'] = 'admin_news';

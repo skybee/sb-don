@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class article_m extends CI_Model{
+class Article_m extends CI_Model{
     
     function __construct() {
         parent::__construct();
@@ -75,15 +75,18 @@ class article_m extends CI_Model{
         $id = (int) $id;
         $query = $this->db->query(" SELECT  `article`.*, 
                                             `category`.`name` AS 'cat_name', `category`.`full_uri` AS 'cat_full_uri',  
-                                            `donor`.`name` AS 'd_name', `donor`.`host` AS 'd_host'
+                                            `donor`.`name` AS 'd_name', `donor`.`host` AS 'd_host',
+                                            `scan_url`.`url` AS 'scan_url'
                                     FROM 
-                                        `article`, `category`, `donor`
+                                        `article`, `category`, `donor`, `scan_url`
                                     WHERE 
                                         `article`.`id`  = {$id}
                                         AND
                                         `category`.`id` = `article`.`cat_id`
                                         AND
                                         `article`.`donor_id` = `donor`.`id`
+                                        AND
+                                        `scan_url`.`id` = `article`.`scan_url_id` 
                                   ");
         
         if( $query->num_rows() < 1 ) return FALSE; 
@@ -268,5 +271,132 @@ class article_m extends CI_Model{
             $data = $catListCache;
         
         return $data;
+    }
+    
+    
+    function get_page_list( $cat_id, $page, $cnt = 15, $text_len = 200 ){
+        $stop   = $page * $cnt;
+        $start  = $stop - $cnt;
+        
+        // < subCatId >
+        $query  = $this->db->query("SELECT `sub_cat_id` FROM `category` WHERE `id` = '{$cat_id}' ");
+        $row    = $query->row();
+        
+        if( !empty($row->sub_cat_id) ){
+            $subCatWhere = " OR `article`.`cat_id` IN ({$row->sub_cat_id}) ";
+        }
+        else{
+            $subCatWhere = '';
+        }
+        // < /subCatId >
+        
+        $sql = "SELECT "
+                . "`article`.*, "
+                . "`category`.`full_uri`,"
+                . "`donor`.`name` AS 'd_name', `donor`.`img` AS 'd_img' "
+                . "FROM "
+                . "`article`, `donor`, `category` "
+                . "WHERE "
+                . " ( `article`.`cat_id` = '{$cat_id}' {$subCatWhere} ) "
+                . "AND "
+                . "`article`.`donor_id` = `donor`.`id` "
+                . "AND "
+                . "`category`.id = `article`.`cat_id`"
+                . "ORDER BY `date` DESC "
+                . "LIMIT {$start}, {$cnt} ";        
+                
+        $query = $this->db->query($sql);
+        
+        if( $query->num_rows() < 1 ) return FALSE;
+        
+        $result_ar = array();
+        foreach( $query->result_array() as $row){
+            $row['text']    = $this->get_short_txt( $row['text'], $text_len );
+            $row['date']    = get_date_str_ar( $row['date'] );
+            $result_ar[]    = $row;
+        }
+        
+        return $result_ar;
+    }
+    
+    function get_cat_data_from_url_name( $url_name ){
+        $url_name = $this->db->escape_str( $url_name );
+        $query = $this->db->query("SELECT * FROM `category` WHERE `url_name` = '{$url_name}' ");
+        
+        return $query->row_array();
+    }
+    
+    function get_mainpage_cat_news( $news_cat_list ){ //принимает массив с id & name категорий
+        $result_ar = array();
+        foreach( $news_cat_list as $s_cat_ar ){
+            $tmp_ar = $this->get_last_news($s_cat_ar['id'], 4, true, false /*, false*/);
+            if( $tmp_ar == NULL || count($tmp_ar) < 1 ) continue; 
+            $tmp_ar['s_cat_ar']                 = $s_cat_ar;
+//            $tmp_ar['s_cat_ar']['full_uri']     = $tmp_ar[0]['full_uri'];
+            $result_ar[]                        = $tmp_ar; 
+        }
+        
+        return $result_ar;
+    }
+    
+    function get_top_slider_data( $idParentId, $cntNews, $hourAgo, $textLength = 200, $img = true, $parentCat = false, $cacheName = 'slider' ){
+        
+        $topSliderCacheName = $cacheName.'_'.$idParentId;
+        if( !$sliderCache = $this->cache->file->get($topSliderCacheName) ){
+            $data = $this->get_popular_articles( $idParentId, $cntNews, $hourAgo, $textLength, $img, $parentCat );
+            $this->cache->file->save($topSliderCacheName, $data, $this->catConfig['cache_time']['top_slider'] * 60 );
+        }
+        else
+            $data = $sliderCache;
+        
+        return $data;
+    }
+    
+    function get_popular_articles($cat_id, $cntNews, $hourAgo, $textLength = 200, $img = true, $parentCat = false ){
+        
+        $dateStart  = date("Y-m-d H:i:s", strtotime(" - {$hourAgo} hours" ) );
+        
+        if( $img )
+            $imgSql = "\n AND `article`.`main_img` != '' "; 
+        else
+            $imgSql = '';  
+          
+        $query  = $this->db->query("SELECT `sub_cat_id` FROM `category` WHERE `id` = '{$cat_id}' ");
+        $row    = $query->row();
+        
+        if( !empty($row->sub_cat_id) ){
+            $subCatWhere = " OR `article`.`cat_id` IN ({$row->sub_cat_id}) ";
+        }
+        else{
+            $subCatWhere = '';
+        }
+        
+        
+        $sql = "SELECT  
+                    `article`.`id`,  `article`.`date`,  `article`.`url_name`,  `article`.`title`,  `article`.`text`,  `article`.`main_img`,  `category`.`full_uri` 
+                FROM  
+                    `article` LEFT OUTER JOIN `category` ON `article`.`cat_id` = `category`.`id`
+                WHERE    
+                    `article`.`date` >  '{$dateStart}'
+                    AND
+                    ( `article`.`cat_id` = '{$cat_id}' {$subCatWhere} )
+                    {$imgSql}    
+                ORDER BY  
+                    `article`.`views` DESC, `article`.`id` DESC 
+                LIMIT {$cntNews}";
+                
+        $query = $this->db->query( $sql );
+        
+        if( $query->num_rows() < 1 ) return NULL;
+        
+        $result = array();
+        
+        foreach( $query->result_array() as $row ){
+            $row['text']    = $this->get_short_txt( $row['text'], $textLength );
+            $row['date']    = get_date_str_ar( $row['date'] );
+            $result[]       = $row;
+        }
+        
+        return $result;
     }
 }

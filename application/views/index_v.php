@@ -4,7 +4,7 @@
     <div class="heading"><h2>Последние Новости</h2></div>
 </div>
 
-<? 
+<?php 
     foreach ($last_news as $news):
     
     $news_url = get_article_url($news['id']);
@@ -38,8 +38,8 @@
     </div>
     <?=get_rnd_block('close', 55)?>
 
-<? endforeach; ?>
+<?php endforeach; ?>
 
 <p class="<?=get_rnd_cssclass('index_donor')?> index_donor">
-    Источник: <a href="http://odnako.su/">odnako.su</a>
+    Источник: <a href="http://odnako.su/<?php if(isset($cat_ar['full_uri'])) echo $cat_ar['full_uri'];?>">Odnako.su</a>
 </p>

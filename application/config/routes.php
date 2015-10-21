@@ -38,8 +38,10 @@
 |
 */
 
-$route['default_controller'] = "main";
-$route['(:any)']             = "main/doc/$1";
+$route['default_controller']    = "main";
+$route['(news|hi-tech|women)$'] = "main/main_page/$1";
+$route['cat/(:any)']            = "main/cat/$1";
+$route['(:any)']                = "main/doc/$1";
 $route['404_override'] = '';
 
 

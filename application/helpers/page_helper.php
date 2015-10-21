@@ -205,3 +205,18 @@ function get_doc_title($mainTitle, $secondTitle, $cntWord = 6){
     return $mainTitle;
     
 }
+
+function get_hour_ago($cat_id)
+{
+    if ($cat_id < 15) {
+        $hour = 12; 
+    }
+    elseif ($cat_id < 24 && $cat_id != 16) {
+        $hour = 24*30;
+    }
+    else {
+        $hour = 24*730;
+    }
+    
+    return $hour;
+}

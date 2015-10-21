@@ -35,17 +35,16 @@
             <div id="top_navigation" class="<?=get_rnd_cssclass('top_navigation')?>">
 
 
+                <?php if(0):?>
                 <ul class="<?=get_rnd_cssclass('firstnav-menu')?> firstnav-menu">
-
-                    <li class="page_item page-item-1733"><a href="#"  title="Archive">Archive</a></li>
-                    <li class="page_item page-item-1736"><a href="#"  title="Features">Features</a></li>
-                    <li class="page_item page-item-1739"><a href="#"  title="Contact">Contact</a></li>
-                    <li class="page_item page-item-1804"><a href="#"  title="Full Width">Full Width</a></li>
-
-                    <li><a href="#">Drop Down</a><ul><li><a href="#">Drop 1</a></li><li><a href="#">Drop 2</a></li> <li><a href="#">Drop 3</a></li></ul></li>
-
-
+                    <?php foreach ($main_menu_list as $main_link): ?>
+                        <li class="page_item page-item-372" catname="<?= $main_link['url_name']?>">
+                            <a href="/<?= $main_link['url_name'] ?>/"><?= $main_link['name'] ?></a>
+                            <div class="firstnav-menu-arrow"></div>
+                        </li>
+                    <?php endforeach; ?>
                 </ul><!-- #first-menu -->
+                <?php endif; ?>
 
                 <div class="header_right_side">
 
@@ -73,9 +72,10 @@
 
             <div id="categories" class="<?=get_rnd_cssclass('categories-id')?>">
                 <ul id="menu-shawn" class="secondnav-menu <?=get_rnd_cssclass('secondnav-menu')?>">
-                    <? foreach($catlist as $cat): ?>
+                    <?php foreach($catlist as $cat): ?>
+                    <!-- <li class="<?php#=get_rnd_cssclass('categories')?>"><a href="/cat/<?php#=$cat['url_name']?>/" ><?php#=$cat['name']?></a></li> -->
                     <li class="<?=get_rnd_cssclass('categories')?>"><a href="#" ><?=$cat['name']?></a></li>
-                    <? endforeach; ?>
+                    <?php endforeach; ?>
                 </ul>                    
             </div><!-- #categories -->
 

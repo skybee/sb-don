@@ -39,6 +39,8 @@ class Article_m extends CI_Model{
     function get_short_txt( $text, $length = 100 ){
         $text = strip_tags($text);
         $text = mb_substr($text, 0, $length);
+        $text = preg_replace("#\s[^\s]*$#i", " \n", $text);
+        $text = preg_replace("#\.[^\.]*$#i", ". \n", $text);
         
         return $text;
     }
@@ -398,5 +400,18 @@ class Article_m extends CI_Model{
         }
         
         return $result;
+    }
+    
+    function set_redirect_url($url, $redirectUrl){
+        $this->db->query("REPLACE INTO `donor_redirect` SET `url`='{$url}', `url_redirect`='{$redirectUrl}'");
+    }
+    
+    function get_redirect_url($url){
+        $query = $this->db->query("SELECT `url_redirect` FROM `donor_redirect` WHERE `url`='{$url}' LIMIT 1 ");
+        
+        if($query->num_rows() < 1) {return false;}
+        
+        $row = $query->row_array();
+        return $row['url_redirect'];
     }
 }

@@ -32,7 +32,7 @@
                 <?= $dateStr ?>
             </span>
             <p>
-                <?= $news['text'] ?>[...]
+                <?= $news['text'] ?>
             </p>
         </div>
     </div>
